@@ -87,6 +87,11 @@ $(EXTENSIONS_DIR)/micro_ros_src/install: $(EXTENSIONS_DIR)/esp32_toolchain.cmake
 	cd $(UROS_DIR); \
 	unset AMENT_PREFIX_PATH; \
 	PATH="$(subst /opt/ros/$(ROS_DISTRO)/bin,,$(PATH))"; \
+	if [ "$(MIDDLEWARE)" = "embeddedrtps" ]; then \
+		export RMW_IMPLEMENTATION=rmw_embeddedrtps; \
+	else \
+		export RMW_IMPLEMENTATION=rmw_microxrcedds; \
+	fi; \
 	. ../micro_ros_dev/install/local_setup.sh; \
 	colcon build \
 		--merge-install \
